@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
 
 import signUpBackground from '../../assets/bg-signup.png';
 
@@ -25,18 +24,6 @@ export const Content = styled.div`
     h1 {
       margin-bottom: 24px;
     }
-
-    a {
-      color: #f4ede8;
-      display: block;
-      margin-top: 24px;
-      text-decoration: none;
-      transition: color 0.2s;
-
-      &:hover {
-        color: ${shade(0.2, '#f4ede8')};
-      }
-    }
   }
 
   > a {
@@ -54,7 +41,7 @@ export const Content = styled.div`
     }
 
     &:hover {
-      color: ${shade(0.2, '#f4ede8')};
+      color: #ff9000;
     }
   }
 `;
