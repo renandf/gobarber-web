@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import * as Yup from 'yup';
+
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -8,30 +13,51 @@ import Button from '../../components/Button';
 
 import { Container, Content, Background } from './styles';
 
-const Login: React.FC = () => (
-  <Container>
-    <Content>
-      <img src={logoImg} alt="GoBarber" />
+const Login: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
 
-      <form>
-        <h1>Welcome back!</h1>
+  const handleSubmit = useCallback(async (data: object) => {
+    try {
+      formRef.current?.setErrors({});
 
-        <Input name="email" icon={FiMail} type="text" placeholder="Email" />
-        <Input name="password" icon={FiLock} type="password" placeholder="Password" />
+      const schema = Yup.object().shape({
+        email: Yup.string().required('Email is required').email('Please insert a valid email'),
+        password: Yup.string().required('Password is required')
+      });
 
-        <Button type="submit">Log in</Button>
+      await schema.validate(data, { abortEarly: false });
+    } catch (err) {
+      const errors = getValidationErrors(err);
 
-        <a href="forgot">Forgot password</a>
+      formRef.current?.setErrors(errors);
+    }
+  }, []);
 
-      </form>
+  return (
+    <Container>
+      <Content>
+        <img src={logoImg} alt="GoBarber" />
 
-      <a href="#">
-        <FiLogIn />
-        Sign up
-      </a>
-    </Content>
-    <Background />
-  </Container>
-);
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <h1>Welcome back!</h1>
+
+          <Input name="email" icon={FiMail} type="text" placeholder="Email" />
+          <Input name="password" icon={FiLock} type="password" placeholder="Password" />
+
+          <Button type="submit">Log in</Button>
+
+          <a href="forgot">Forgot password</a>
+
+        </Form>
+
+        <a href="#">
+          <FiLogIn />
+          Sign up
+        </a>
+      </Content>
+      <Background />
+    </Container>
+  )
+};
 
 export default Login;

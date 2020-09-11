@@ -34,7 +34,7 @@ export const Content = styled.div`
       transition: color 0.2s;
 
       &:hover {
-        color: ${shade(0.2, '#f4ede8')};
+        color: #ff9000;
       }
     }
   }
