@@ -4,7 +4,9 @@ import Login from './pages/Login';
 // import SignUp from './pages/SignUp';
 import GlobalStyle from './styles/global';
 
-import { AuthProvider } from './hooks/AuthContext';
+import ToastContainer from './components/ToastContainer';
+import { AuthProvider } from './hooks/auth';
+import { ToastProvider } from './hooks/toast';
 
 const App: React.FC = () => (
   <>
@@ -13,6 +15,8 @@ const App: React.FC = () => (
     <AuthProvider>
       <Login />
     </AuthProvider>
+
+    <ToastContainer />
   </>
 );
 
