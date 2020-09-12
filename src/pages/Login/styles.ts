@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled, { keyframes } from 'styled-components';
 
 import loginBackground from '../../assets/bg-login.png';
 
@@ -12,10 +11,32 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  place-content: center;
   align-items: center;
+  justify-content: center;
+
   width: 100%;
   max-width: 700px;
+`;
+
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const AnimationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  animation: ${appearFromLeft} 1s;
 
   form {
     margin: 80px 0;
@@ -27,20 +48,14 @@ export const Content = styled.div`
     }
 
     a {
-      color: #f4ede8;
+      font-size: 14px;
       display: block;
-      margin-top: 24px;
-      text-decoration: none;
-      transition: color 0.2s;
-
-      &:hover {
-        color: #ff9000;
-      }
+      margin-top: 16px;
     }
   }
 
-  > a {
-    color: #ff9000;
+  a {
+    color: #f4ede8;
     display: block;
     margin-top: 24px;
     text-decoration: none;
@@ -49,12 +64,8 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
 
-    svg {
-      margin-right: 16px;
-    }
-
     &:hover {
-      color: ${shade(0.2, '#ff9000')};
+      color: #ff9000;
     }
   }
 `;
