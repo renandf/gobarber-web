@@ -10,7 +10,7 @@ export const Container = styled.div<ContainerProps>`
   align-items: center;
   height: 100%;
 
-  & > div {
+  div {
     width: 12px;
     height: 12px;
     margin: 0 4px;
@@ -19,10 +19,11 @@ export const Container = styled.div<ContainerProps>`
     animation: pulse 1.2s infinite ease-in-out both;
   }
 
-  & div:nth-child(1) {
+  div:nth-child(1) {
     animation-delay: -0.32s;
   }
-  & div:nth-child(2) {
+
+  div:nth-child(2) {
     animation-delay: -0.16s;
   }
 

@@ -3,7 +3,7 @@ import { FiMail } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -27,6 +27,8 @@ const ForgotPassword: React.FC = () => {
 
   const { addToast } = useToast();
 
+  const history = useHistory();
+
   const handleSubmit = useCallback(async (data: ForgotPasswordFormData) => {
     try {
       setLoading(true);
@@ -39,7 +41,6 @@ const ForgotPassword: React.FC = () => {
 
       await schema.validate(data, { abortEarly: false });
 
-      // recover password
       await api.post('/password/forgot', {
         email: data.email,
       });
@@ -48,7 +49,9 @@ const ForgotPassword: React.FC = () => {
         type: 'success',
         title: 'Reset password email sent',
         description: `Click the link sent to ${data.email} to reset your password.`
-      })
+      });
+
+      history.push('/');
 
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
