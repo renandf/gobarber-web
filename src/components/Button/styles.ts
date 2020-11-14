@@ -16,4 +16,9 @@ export const Container = styled.button`
   &:hover {
     background: ${adjustHue(12, '#ff9000')};
   }
+
+  &:disabled, &:disabled:hover {
+    /* background: rgba(0,0,0,0.2); */
+    background: rgba(255,255,255,0.2);
+  }
 `;
