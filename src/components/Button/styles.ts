@@ -18,7 +18,6 @@ export const Container = styled.button`
   }
 
   &:disabled, &:disabled:hover {
-    /* background: rgba(0,0,0,0.2); */
     background: rgba(255,255,255,0.2);
   }
 `;
