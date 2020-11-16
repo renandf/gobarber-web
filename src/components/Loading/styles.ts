@@ -14,8 +14,8 @@ export const Container = styled.div<ContainerProps>`
     width: 12px;
     height: 12px;
     margin: 0 4px;
-    ${props => props.dark ? 'background-color: rgba(49,46,56,0.7);' : 'background-color: rgba(255,255,255,0.7);'}
-    border-radius: 100%;
+    background: ${props => props.dark ? 'rgba(49,46,56,0.7)' : 'rgba(255,255,255,0.7)'};
+    border-radius: 50%;
     animation: pulse 1.2s infinite ease-in-out both;
   }
 
