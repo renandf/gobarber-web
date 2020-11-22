@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { isToday, format, parseISO } from 'date-fns';
+import { isToday, format, parseISO, isAfter } from 'date-fns';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
-    if (modifiers.available) {
+    if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
@@ -121,6 +121,12 @@ const Dashboard: React.FC = () => {
     })
   }, [appointments]);
 
+  const nextAppointment = useMemo(() => {
+    return appointments.find(appointment =>
+      isAfter(parseISO(appointment.date), new Date()),
+    )
+  }, [appointments]);
+
   return (
     <Container>
       <Header>
@@ -130,7 +136,7 @@ const Dashboard: React.FC = () => {
           <Profile>
             {user.avatar_url
               ? <img src={user.avatar_url} alt={user.name} />
-              : <ImgPlaceholder>{user.name.substr(0, 1)}</ImgPlaceholder>
+              : <ImgPlaceholder>{user.name.charAt(0)}</ImgPlaceholder>
             }
             <div>
               <span>Welcome,</span>
@@ -151,21 +157,31 @@ const Dashboard: React.FC = () => {
             <span>{selectedDateAsText}</span>
             <span>{selectedWeekDay}</span>
           </p>
-          <NextAppointment>
-            <strong>Next appointment</strong>
-            <div>
-              <img src="https://i.pravatar.cc/300" alt="Name" />
 
-              <strong>Renan Castro</strong>
-              <span>
-                <FiClock />
-                08:00
-              </span>
-            </div>
-          </NextAppointment>
+          {isToday(selectedDate) && nextAppointment && (
+            <NextAppointment>
+              <strong>Next appointment</strong>
+              <div>
+                {nextAppointment.user.avatar_url
+                  ? <img src={nextAppointment.user.avatar_url} alt={nextAppointment.user.name} />
+                  : <ImgPlaceholder>{nextAppointment.user.name.charAt(0)}</ImgPlaceholder>
+                }
+
+                <strong>{nextAppointment.user.name}</strong>
+                <span>
+                  <FiClock />
+                  {nextAppointment.hourFormatted}
+                </span>
+              </div>
+            </NextAppointment>
+          )}
 
           <Section>
             <strong>Morning</strong>
+
+            {morningAppointments.length === 0 && (
+              <p>No scheduled appointments for the morning of {selectedDateAsText}</p>
+            )}
 
             {morningAppointments.map(appointment => (
               <Appointment key={appointment.id}>
@@ -175,7 +191,10 @@ const Dashboard: React.FC = () => {
                 </span>
 
                 <div>
-                  <img src={appointment.user.avatar_url} alt={appointment.user.name} />
+                  {appointment.user.avatar_url
+                    ? <img src={appointment.user.avatar_url} alt={appointment.user.name} />
+                    : <ImgPlaceholder>{appointment.user.name.charAt(0)}</ImgPlaceholder>
+                  }
                   <strong>{appointment.user.name}</strong>
                 </div>
               </Appointment>
@@ -186,6 +205,10 @@ const Dashboard: React.FC = () => {
           <Section>
             <strong>Afternoon</strong>
 
+            {afternoonAppointments.length === 0 && (
+              <p>No scheduled appointments for the afternoon of {selectedDateAsText}</p>
+            )}
+
             {afternoonAppointments.map(appointment => (
               <Appointment key={appointment.id}>
                 <span>
@@ -194,7 +217,10 @@ const Dashboard: React.FC = () => {
                 </span>
 
                 <div>
-                  <img src={appointment.user.avatar_url} alt={appointment.user.name} />
+                  {appointment.user.avatar_url
+                    ? <img src={appointment.user.avatar_url} alt={appointment.user.name} />
+                    : <ImgPlaceholder>{appointment.user.name.charAt(0)}</ImgPlaceholder>
+                  }
                   <strong>{appointment.user.name}</strong>
                 </div>
               </Appointment>
