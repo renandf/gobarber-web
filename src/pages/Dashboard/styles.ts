@@ -30,6 +30,10 @@ export const HeaderContent = styled.div`
       width: 20px;
       height: 20px;
     }
+
+    &:hover svg {
+      color: #fff;
+    }
   }
 `;
 
