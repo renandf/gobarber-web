@@ -59,13 +59,18 @@ export const AnimationContainer = styled.div`
     display: block;
     margin-top: 24px;
     text-decoration: none;
-    transition: color 0.2s;
+    background-image: linear-gradient(to bottom, #ff9000 0%, #ff9000 100%);
+    background-position: center bottom;
+    background-size: 0 2px;
+    background-repeat: no-repeat;
+    transition: background-size 0.2s linear, color 0.2s;
 
     display: flex;
     align-items: center;
 
     &:hover {
       color: #ff9000;
+      background-size: 100% 2px;
     }
   }
 `;

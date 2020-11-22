@@ -54,8 +54,19 @@ export const Profile = styled.div`
       color: #f4ede8;
     }
 
-    strong {
+    a {
+      text-decoration: none;
       color: #ff9000;
+      background-image: linear-gradient(to bottom, #ff9000 0%, #ff9000 100%);
+      background-position: center bottom;
+      background-size: 0 2px;
+      background-repeat: no-repeat;
+      transition: background-size 0.2s linear, opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+        background-size: 100% 2px;
+      }
     }
   }
 `;
