@@ -34,8 +34,8 @@ const ResetPassword: React.FC = () => {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
-        password: Yup.string().required('Password is required'),
-        password_confirmation: Yup.string().oneOf([Yup.ref('password')], 'Password must match'),
+        password: Yup.string().min(6, 'Minimum 6 characters').required('Password is required'),
+        password_confirmation: Yup.string().oneOf([Yup.ref('password')], 'New password must match'),
       });
 
       await schema.validate(data, { abortEarly: false });
