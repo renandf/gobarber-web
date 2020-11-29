@@ -57,7 +57,13 @@ const Profile: React.FC = () => {
 
       await schema.validate(data, { abortEarly: false });
 
-      const { name, email, old_password, password, password_confirmation } = data;
+      const {
+        name,
+        email,
+        old_password,
+        password,
+        password_confirmation,
+      } = data;
 
       const formData = {
         name,
@@ -100,7 +106,7 @@ const Profile: React.FC = () => {
         description: `Something went wrong. Please make sure you're using the right password or try again later.`
       });
     }
-  }, [addToast, history]);
+  }, [updateUser, addToast, history]);
 
   const handleAvatarChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {

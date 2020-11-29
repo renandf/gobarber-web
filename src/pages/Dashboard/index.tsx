@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { isToday, format, parseISO, isAfter } from 'date-fns';
+import { isToday, parseISO, format, isAfter } from 'date-fns';
+// import { utcToZonedTime, format } from 'date-fns-tz';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
@@ -114,18 +115,24 @@ const Dashboard: React.FC = () => {
     return appointments.filter(appointment => {
       return parseISO(appointment.date).getHours() < 12;
     })
+    // console.log(response);
+    // return response;
   }, [appointments]);
 
   const afternoonAppointments = useMemo(() => {
     return appointments.filter(appointment => {
       return parseISO(appointment.date).getHours() >= 12;
     })
+    // console.log(response);
+    // return response;
   }, [appointments]);
 
   const nextAppointment = useMemo(() => {
     return appointments.find(appointment =>
       isAfter(parseISO(appointment.date), new Date()),
     )
+    // console.log(response);
+    // return response;
   }, [appointments]);
 
   return (
