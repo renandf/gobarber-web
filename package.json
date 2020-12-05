@@ -14,7 +14,7 @@
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "3.4.0",
     "react-spring": "^8.0.27",
     "styled-components": "^5.2.0",
     "uuidv4": "^6.2.3",
@@ -24,6 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test:coverage": "react-scripts test --env=jest-environment-jsdom-sixteen --coverage --watchAll false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
