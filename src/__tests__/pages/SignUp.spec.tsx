@@ -1,52 +1,14 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import MockAdapter from 'axios-mock-adapter';
 
 import SignUp from '../../pages/SignUp';
+import api from '../../services/api';
+
+const apiMock = new MockAdapter(api);
 
 const mockedHistoryPush = jest.fn();
-const mockedApi = jest.fn();
 const mockedAddToast = jest.fn();
-
-jest.mock('../../services/api', () => {
-  return {
-    api() {
-      return {
-        name: '',
-        email: '',
-        avatar_url: '',
-      }
-    }
-  };
-});
-
-// jest.mock('@unform/core', () => {
-//   return {
-//     useField() {
-//       return {
-//         fieldName: 'email',
-//         defaultValue: '',
-//         error: '',
-//         registerField: jest.fn(),
-//       }
-//     }
-//   }
-// })
-
-// import { useAuth } from '../../hooks/auth';
-// const { signIn } = useAuth();
-// jest.mock('../../hooks/auth', () => {
-//   return {
-//     useAuth: () => ({
-//       signIn: mockedSignIn,
-//     }),
-//   };
-// });
-
-// import api from '../../services/api';
-
-
-
-
 
 jest.mock('react-router-dom', () => {
   return {
@@ -67,39 +29,43 @@ jest.mock('../../hooks/toast', () => {
 
 describe('SignUp Page', () => {
   beforeEach(() => {
-    mockedApi.mockClear();
     mockedHistoryPush.mockClear();
     mockedAddToast.mockClear();
   });
 
-  // it('should be able to register', async () => {
-  //   mockedApi.mockImplementation(() => {
-  //     return;
-  //   });
+  it('should be able to register', async () => {
+    apiMock.onPost('users').reply(200, {
+      user: {
+        id: 'user123',
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+      },
+      token: 'token-123',
+    });
 
-  //   const { getByPlaceholderText, getByText } = render(<SignUp />);
+    const { getByPlaceholderText, getByText } = render(<SignUp />);
 
-  //   const nameField = getByPlaceholderText('Name');
-  //   const emailField = getByPlaceholderText('Email');
-  //   const passwordField = getByPlaceholderText('Password');
-  //   const buttonElement = getByText('Register');
+    const nameField = getByPlaceholderText('Name');
+    const emailField = getByPlaceholderText('Email');
+    const passwordField = getByPlaceholderText('Password');
+    const buttonElement = getByText('Register');
 
-  //   fireEvent.change(nameField, { target: { value: 'John Doe' } });
-  //   fireEvent.change(emailField, { target: { value: 'johndoe@example.com' } });
-  //   fireEvent.change(passwordField, { target: { value: '123456' } });
+    fireEvent.change(nameField, { target: { value: 'John Doe' } });
+    fireEvent.change(emailField, { target: { value: 'johndoe@example.com' } });
+    fireEvent.change(passwordField, { target: { value: '123456' } });
 
-  //   fireEvent.click(buttonElement);
+    fireEvent.click(buttonElement);
 
-  //   await waitFor(() => {
-  //     expect(mockedHistoryPush).toHaveBeenCalledWith('/');
-  //     expect(mockedAddToast).toHaveBeenCalledWith(
-  //       expect.objectContaining({
-  //         type: 'success',
-  //         title: 'Registration successful!',
-  //       }),
-  //     );
-  //   });
-  // });
+    await waitFor(() => {
+      expect(mockedHistoryPush).toHaveBeenCalledWith('/');
+      expect(mockedAddToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'success',
+          title: 'Registration successful!',
+        }),
+      );
+    });
+  });
 
   it('should not be able to register with missing credentials', async () => {
     const { getByPlaceholderText, getByText } = render(<SignUp />);
@@ -127,9 +93,7 @@ describe('SignUp Page', () => {
   });
 
   it('should expect an error if registration fails', async () => {
-    mockedApi.mockImplementation(() => {
-      throw new Error();
-    });
+    apiMock.onPost('users').reply(500);
 
     const { getByPlaceholderText, getByText } = render(<SignUp />);
 
