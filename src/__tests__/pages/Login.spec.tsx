@@ -44,7 +44,7 @@ describe('Login Page', () => {
 
     const emailField = getByPlaceholderText('Email');
     const passwordField = getByPlaceholderText('Password');
-    const buttonElement = getByText('Log in')
+    const buttonElement = getByText('Log in');
 
     fireEvent.change(emailField, { target: { value: 'johndoe@example.com' } });
     fireEvent.change(passwordField, { target: { value: '123456' } });
@@ -61,7 +61,7 @@ describe('Login Page', () => {
 
     const emailField = getByPlaceholderText('Email');
     const passwordField = getByPlaceholderText('Password');
-    const buttonElement = getByText('Log in')
+    const buttonElement = getByText('Log in');
 
     fireEvent.change(emailField, { target: { value: '' } });
     fireEvent.change(passwordField, { target: { value: '123456' } });
@@ -88,7 +88,7 @@ describe('Login Page', () => {
 
     const emailField = getByPlaceholderText('Email');
     const passwordField = getByPlaceholderText('Password');
-    const buttonElement = getByText('Log in')
+    const buttonElement = getByText('Log in');
 
     fireEvent.change(emailField, { target: { value: 'johndoe@example.com' } });
     fireEvent.change(passwordField, { target: { value: '123456' } });
