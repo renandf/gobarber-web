@@ -67,12 +67,6 @@ const ForgotPassword: React.FC = () => {
 
         return;
       }
-
-      addToast({
-        type: 'error',
-        title: 'Authentication error',
-        description: 'Please make sure your email and password are valid.'
-      });
     } finally {
       setLoading(false)
     }
