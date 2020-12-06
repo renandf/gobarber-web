@@ -66,7 +66,7 @@ const Login: React.FC = () => {
         description: 'Please make sure your email and password are valid.'
       });
     }
-  }, [signIn, addToast]);
+  }, [signIn, addToast, history]);
 
   return (
     <Container>
